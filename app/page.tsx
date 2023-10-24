@@ -1,43 +1,56 @@
+"use client"
+
+import useAuth from '@/hooks/useAuth'
 import Banner from './components/Banner'
 import Header from './components/Header'
 import Row from './components/Row'
 import requests from './utils/requests'
+import { useEffect, useState } from 'react'
 
-const getMovies = async () => {
-  const [
-    netflixOriginals,
-    trendingNow,
-    topRated,
-    actionMovies,
-    comedyMovies,
-    horrorMovies,
-    romanceMovies,
-    documentaries,
-  ] = await Promise.all([
-    fetch(requests.fetchNetflixOriginals).then(res => res.json()),
-    fetch(requests.fetchTrending).then(res => res.json()),
-    fetch(requests.fetchTopRated).then(res => res.json()),
-    fetch(requests.fetchActionMovies).then(res => res.json()),
-    fetch(requests.fetchComedyMovies).then(res => res.json()),
-    fetch(requests.fetchHorrorMovies).then(res => res.json()),
-    fetch(requests.fetchRomanceMovies).then(res => res.json()),
-    fetch(requests.fetchDocumentaries).then(res => res.json()),
-  ])
+const Home = () => {
+  const [movies, setMovies] = useState({
+    netflixOriginals: [],
+    trendingNow: [],
+    topRated: [],
+    actionMovies: [],
+    comedyMovies: [],
+    horrorMovies: [],
+    romanceMovies: [],
+    documentaries: [],
+  })
 
-  return {
-    netflixOriginals: netflixOriginals.results,
-    trendingNow: trendingNow.results,
-    topRated: topRated.results,
-    actionMovies: actionMovies.results,
-    comedyMovies: comedyMovies.results,
-    horrorMovies: horrorMovies.results,
-    romanceMovies: romanceMovies.results,
-    documentaries: documentaries.results,
-  }
-}
+  useEffect(() => {
+    const movieRequests = Object.values(requests);
 
-const Home = async () => {
-  const movies = await getMovies()
+    Promise.all(
+      movieRequests.map((url) =>
+        fetch(url).then((response) => {
+          if (!response.ok) {
+            throw new Error(`Request to ${url} failed with status ${response.status}`);
+          }
+          return response.json();
+        })
+      )
+    )
+      .then((responses) => {
+        responses.forEach((response, index) => {
+          const requestKey = Object.keys(requests)[index];
+          console.log(Object.keys(movies)[index])
+          setMovies((prevMovies) => ({
+            ...prevMovies,
+            [Object.keys(movies)[index]]: response.results,
+          }));
+        });
+      })
+      .catch((error) => {
+        console.error("Error making requests:", error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const { loading } = useAuth()
+
+  if (loading) return null
 
   return (
     <div className='relative h-screen bg-gradient-to-b lg:h-[200vh]'>

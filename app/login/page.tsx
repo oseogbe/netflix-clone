@@ -53,6 +53,16 @@ const Login = () => {
             >
                 <h1 className="text-4xl font-semibold">Sign In</h1>
                 <div className="space-y-4">
+                    {/* <div className="inline-block">
+                        <Input
+                            label="Email"
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                            id="email"
+                            type="email"
+                            value={email}
+                        />
+                        {errors.email && (<p className="p-1 text-[13px] font-light text-red-500">Please enter a valid email</p>)}
+                    </div> */}
                     <label className="inline-block">
                         <input type="email" placeholder="Email" className="input" {...register('email', { required: true })} />
                         {errors.email && (<p className="p-1 text-[13px] font-light text-red-500">Please enter a valid email</p>)}
