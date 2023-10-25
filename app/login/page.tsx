@@ -3,7 +3,6 @@
 /* eslint-disable @next/next/no-img-element */
 import useAuth from '@/hooks/useAuth';
 // import { Metadata } from 'next'
-import Head from 'next/head';
 import Image from 'next/image'
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';

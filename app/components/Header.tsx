@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link"
 import { BellIcon, MagnifyingGlassIcon, WifiIcon } from "@heroicons/react/24/solid"
 import { useEffect, useState } from "react";

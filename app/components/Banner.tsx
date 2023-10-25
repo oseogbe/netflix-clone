@@ -1,10 +1,10 @@
-"use client"
-
+import { modalState, movieState } from '@/atoms/modalAtom'
 import { baseUrl } from '@/constants/movie'
 import { Movie } from '@/typings'
 import { InformationCircleIcon, PlayIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
+import { useRecoilState } from 'recoil'
 
 interface Props {
     netflixOriginals: Movie[]
@@ -24,6 +24,8 @@ const getOverViewExcerpt = (overview: string) => {
 
 const Banner = ({ netflixOriginals }: Props) => {
     const [movie, setMovie] = useState<Movie | null>(null)
+    const [showModal, setShowModal] = useRecoilState(modalState)
+    const [currentMovie, setCurrentMovie] = useRecoilState(movieState)
 
     useEffect(() => {
         setMovie(netflixOriginals[Math.floor(Math.random() * netflixOriginals.length)])
@@ -50,7 +52,13 @@ const Banner = ({ netflixOriginals }: Props) => {
             </p>
 
             <div className='flex space-x-3'>
-                <button className='btn-banner bg-white text-black'>
+                <button
+                    className='btn-banner bg-white text-black'
+                    onClick={() => {
+                        setCurrentMovie(movie)
+                        setShowModal(true)
+                    }}
+                >
                     <PlayIcon className='w-4 h-4 text-black md:w-7 md:h-7' /> Play
                 </button>
                 <button className='btn-banner bg-[gray]/70'>
