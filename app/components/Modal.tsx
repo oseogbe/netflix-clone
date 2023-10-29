@@ -79,9 +79,10 @@ const Modal = () => {
                         </div>
                         <button className="btn-modal" onClick={() => setMuted(!muted)}>
                             {muted ? (
-                                <SpeakerWaveIcon className="w-6 h-6" />
-                            ) : (
                                 <SpeakerXMarkIcon className="w-6 h-6" />
+
+                            ) : (
+                                <SpeakerWaveIcon className="w-6 h-6" />
                             )}
                         </button>
                     </div>
