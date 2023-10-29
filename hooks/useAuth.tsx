@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             .finally(() => setLoading(false))
     }
 
-    const memoidValue = useMemo(
+    const memoizedValue = useMemo(
         () => ({
             user,
             signUp,
@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         [user, loading]
     )
 
-    return <AuthContext.Provider value={memoidValue}>
+    return <AuthContext.Provider value={memoizedValue}>
         {!initialLoading && children}
     </AuthContext.Provider>
 }
