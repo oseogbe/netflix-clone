@@ -32,8 +32,8 @@ const Banner = ({ netflixOriginals }: Props) => {
     }, [netflixOriginals])
 
     return (
-        <div className='flex flex-col space-y-2 py-16 md:space-y-4 lg:h-[65vh] lg:justify-end lg:pb-12'>
-            <div className='absolute top-0 left-0 -z-10 h-[95vh] w-screen'>
+        <div className='flex flex-col space-y-2 pt-32 pb-28 md:space-y-4 lg:h-[80vh] lg:justify-end lg:pb-32'>
+            <div className='absolute top-0 left-0 -z-10 h-[100vh] w-screen'>
                 <Image
                     src={`${baseUrl}${movie?.backdrop_path || movie?.poster_path}`}
                     alt="Featured movie"
@@ -54,14 +54,16 @@ const Banner = ({ netflixOriginals }: Props) => {
             <div className='flex space-x-3'>
                 <button
                     className='btn-banner bg-white text-black'
+                >
+                    <PlayIcon className='w-4 h-4 text-black md:w-7 md:h-7' /> Play
+                </button>
+                <button
+                    className='btn-banner bg-[gray]/70'
                     onClick={() => {
                         setCurrentMovie(movie)
                         setShowModal(true)
                     }}
                 >
-                    <PlayIcon className='w-4 h-4 text-black md:w-7 md:h-7' /> Play
-                </button>
-                <button className='btn-banner bg-[gray]/70'>
                     More Info <InformationCircleIcon className='w-5 h-5 md:w-8 md:h-8' />
                 </button>
             </div>

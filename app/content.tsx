@@ -59,7 +59,7 @@ const Content = () => {
 
         <div className='relative h-screen bg-gradient-to-b lg:h-[200vh]'>
             <Header />
-            <main className='relative pl-4 pb-24 lg:space-y-24 lg:pl-16'>
+            <main className='relative pl-4 pb-6 lg:space-y-12 lg:pl-16'>
                 <Banner netflixOriginals={movies.netflixOriginals} />
                 <section className="md:space-y-24">
                     <Row title="Trending Now" movies={movies.trendingNow} />
