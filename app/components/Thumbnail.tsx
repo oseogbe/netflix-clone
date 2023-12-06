@@ -18,7 +18,8 @@ const Thumbnail = ({ movie }: Props) => {
                 src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path || movie.poster_path}`}
                 alt={movie.title}
                 className="rounded-sm object-cover md:rounded"
-                layout="fill"
+                width={300}
+                height={300}
                 onClick={() => {
                     setCurrentMovie(movie)
                     setShowModal(true)

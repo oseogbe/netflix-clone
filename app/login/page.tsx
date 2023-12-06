@@ -32,14 +32,13 @@ const Login = () => {
     return (
         <div className='relative flex flex-col w-screen h-screen bg-black md:items-center md:justify-center md:bg-transparent'>
             <Image
-                src='https://rb.gy/p2hphi'
-                alt='Netflix clone'
-                layout='fill'
-                className='-z-10 !hidden opacity-60 sm:!inline'
-                objectFit='cover'
+                src="https://rb.gy/p2hphi"
+                alt="Netflix clone"
+                fill
+                className="object-cover -z-10 !hidden opacity-60 sm:!inline"
             />
-            <img
-                src="https://rb.gy/ulxxee"
+            <Image
+                src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
                 width={150}
                 height={150}
                 className="absolute left-4 top-4 cursor-pointer object-contain md:left-10 md:top-6"

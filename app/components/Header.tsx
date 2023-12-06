@@ -1,6 +1,6 @@
-import Link from "next/link"
-import { BellIcon, MagnifyingGlassIcon, WifiIcon } from "@heroicons/react/24/solid"
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import { BellIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid"
 import useAuth from "@/hooks/useAuth";
 
 /* eslint-disable @next/next/no-img-element */
@@ -28,8 +28,8 @@ const Header = () => {
     return (
         <header className={`${isScrolled && "bg-[#141414]"} lg:px-16`}>
             <div className="flex items-center space-x-2 md:space-x-10">
-                <img
-                    src="https://rb.gy/ulxxee"
+                <Image
+                    src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
                     width={100}
                     height={100}
                     className="cursor-pointer object-contain"
