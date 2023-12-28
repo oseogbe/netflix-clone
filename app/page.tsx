@@ -12,7 +12,6 @@ import { useEffect, useState } from 'react';
 import requests from './utils/requests';
 
 export default function Home() {
-
   const { loading } = useAuth()
 
   const subscription = false
