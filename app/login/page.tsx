@@ -1,11 +1,12 @@
 "use client"
 
 /* eslint-disable @next/next/no-img-element */
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/hooks/useAuth'
 // import { Metadata } from 'next'
 import Image from 'next/image'
-import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { Toaster } from 'react-hot-toast'
 
 // export const metadata: Metadata = {
 //     title: 'Login | Netflixx',
@@ -78,6 +79,7 @@ const Login = () => {
                     <button className="text-white hover:underline" onClick={() => setLogin(false)}>Sign up now</button>
                 </div>
             </form>
+            <Toaster />
         </div>
     )
 }
