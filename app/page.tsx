@@ -2,23 +2,31 @@
 
 import { RecoilRoot, useRecoilValue } from 'recoil'
 import { modalState } from '@/atoms/modalAtom'
-import Header from './components/Header';
-import Banner from './components/Banner';
-import Plans from './components/Plans';
-import Row from './components/Row';
-import useAuth from '@/hooks/useAuth';
-import Modal from './components/Modal';
-import { useEffect, useState } from 'react';
-import requests from './utils/requests';
+import Header from './components/Header'
+import Banner from './components/Banner'
+import Plans from './components/Plans'
+import Row from './components/Row'
+import useAuth from '@/hooks/useAuth'
+import Modal from './components/Modal'
+import { useEffect, useState } from 'react'
+import requests from './utils/requests'
+import { getSubscription } from './lib/stripe'
 
-export default function Home() {
-  const { loading } = useAuth()
+export default function HomePage() {
+  const { user } = useAuth()
+  const [subscribed, setSubscribed] = useState(false)
 
-  const subscription = false
+  useEffect(() => {
+    if (user) {
+      getSubscription(user.uid).then(subscription => {
+        if (subscription) {
+          setSubscribed(true)
+        }
+      })
+    }
+  }, [user])
 
-  if (loading || subscription === null) return null
-
-  if (!subscription) return <Plans />
+  if (!subscribed) return <Plans />
 
   return (
     <RecoilRoot>
@@ -42,7 +50,7 @@ const Child = () => {
   })
 
   useEffect(() => {
-    const movieRequests = Object.values(requests);
+    const movieRequests = Object.values(requests)
 
     Promise.all(
       movieRequests.map((url) =>
@@ -50,9 +58,9 @@ const Child = () => {
           cache: 'no-store',
         }).then((response) => {
           if (!response.ok) {
-            throw new Error(`Request to ${url} failed with status ${response.status}`);
+            throw new Error(`Request to ${url} failed with status ${response.status}`)
           }
-          return response.json();
+          return response.json()
         })
       )
     )
@@ -61,14 +69,13 @@ const Child = () => {
           setMovies((prevMovies) => ({
             ...prevMovies,
             [Object.keys(movies)[index]]: response.results,
-          }));
-        });
+          }))
+        })
       })
       .catch((error) => {
-        console.error("Error making requests:", error);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+        console.error("Error making requests:", error)
+      })
+  }, [])
 
   return (
     <div className='relative h-screen bg-gradient-to-b lg:h-[200vh]'>

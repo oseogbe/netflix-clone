@@ -1,23 +1,17 @@
 "use client"
 
-/* eslint-disable @next/next/no-img-element */
 import useAuth from '@/hooks/useAuth'
-// import { Metadata } from 'next'
 import Image from 'next/image'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Toaster } from 'react-hot-toast'
-
-// export const metadata: Metadata = {
-//     title: 'Login | Netflixx',
-// }
 
 interface Inputs {
     email: string
     password: string
 }
 
-const Login = () => {
+const LoginPage = () => {
     const [login, setLogin] = useState(false)
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>()
     const { signIn, signUp } = useAuth()
@@ -84,4 +78,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default LoginPage

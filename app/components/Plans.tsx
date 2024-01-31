@@ -1,14 +1,13 @@
-import { db } from "@/firebase"
-import useAuth from "@/hooks/useAuth"
-import { CheckIcon } from "@heroicons/react/20/solid"
-import { DocumentData, collection, getDocs, query, where } from "firebase/firestore"
+import { useEffect, useState } from "react"
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import useAuth from "@/hooks/useAuth"
+import { CheckIcon } from "@heroicons/react/20/solid"
+import { getProducts, loadCheckout } from "../lib/stripe"
+import { SubscriptionPlan } from "@/typings"
 import Table from "./Table"
 import Loader from "./Loader"
-import { loadCheckout } from "../lib/stripe"
 
 export const metadata: Metadata = {
     title: 'Netflixx',
@@ -16,48 +15,23 @@ export const metadata: Metadata = {
 }
 
 const Plans = () => {
-    const [plans, setPlans] = useState<DocumentData[]>([])
-    const [selectedPlan, setSelectedPlan] = useState<DocumentData>([])
+    const [plans, setPlans] = useState<SubscriptionPlan[]>([])
+    const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan | null>(null)
     const [isBillingLoading, setBillingLoading] = useState(false)
 
     const { user, logout } = useAuth()
 
     useEffect(() => {
-        // create a query object for active products (plans)
-        const q = query(
-            collection(db, 'products'),
-            where('active', '==', true)
-        )
-
-        getDocs(q).then(productQuerySnapshot => {
-            // for each product, get the product price info
-            const promises = productQuerySnapshot.docs.map((productDoc) => {
-                let productInfo = productDoc.data()
-
-                // fetch prices subcollection per product
-                const pricesCollection = collection(productDoc.ref, 'prices')
-
-                return getDocs(pricesCollection).then(priceQuerySnapshot => {
-                    // assume there is only one price per product
-                    const priceDoc = priceQuerySnapshot.docs[0]
-                    productInfo['priceId'] = priceDoc.id
-                    productInfo['priceInfo'] = priceDoc.data()
-                    return productInfo
-                })
-            })
-
-            Promise.all(promises).then(fetchedProducts => {
-                setPlans(fetchedProducts)
-                setSelectedPlan(fetchedProducts[2])
-            })
-        });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        getProducts().then(products => {
+            setPlans(products)
+            setSelectedPlan(products[2])
+        })
     }, [])
 
     const subscribeToPlan = () => {
         if (!user) return
 
-        loadCheckout(selectedPlan?.priceId!)
+        loadCheckout(user.uid, selectedPlan?.priceId!)
         setBillingLoading(true)
     }
 
@@ -106,7 +80,7 @@ const Plans = () => {
                         }
                     </div>
 
-                    {<Table plans={plans} selectedPlan={selectedPlan} />}
+                    {selectedPlan && <Table plans={plans} selectedPlan={selectedPlan} />}
 
                     <button
                         disabled={!selectedPlan || isBillingLoading}

@@ -1,9 +1,9 @@
+import { SubscriptionPlan } from "@/typings";
 import { CheckIcon } from "@heroicons/react/24/solid";
-import { DocumentData } from "firebase/firestore"
 
 interface Props {
-    plans: DocumentData[];
-    selectedPlan: DocumentData;
+    plans: SubscriptionPlan[];
+    selectedPlan: SubscriptionPlan;
 }
 
 const Table = ({ plans, selectedPlan }: Props) => {
